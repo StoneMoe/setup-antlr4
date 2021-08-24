@@ -17,12 +17,12 @@ Nothing
 
 if v4.9.2 is ok with you:
 ```
-uses: StoneMoe/setup-antlr4@v0.1
+uses: StoneMoe/setup-antlr4@v1.0
 ```
 
 or set your own download_url:
 ```
-uses: StoneMoe/setup-antlr4@v0.1
+uses: StoneMoe/setup-antlr4@v1.0
 with:
   download_url: 'xxxxxxxxxxxxx'
 ```
