@@ -6413,7 +6413,7 @@ async function main(){
         } else {
             core.addPath("/tmp");
             core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
-            await fs.writeFile("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
+            await fs.writeFile("antlr", "!#/bin/bash -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
             await fs.chmod("antlr", 0o775);
         }
         console.log("Installed")
