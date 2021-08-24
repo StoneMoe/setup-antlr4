@@ -6168,14 +6168,6 @@ module.exports = eval("require")("encoding");
 
 /***/ }),
 
-/***/ 393:
-/***/ ((module) => {
-
-module.exports = eval("require")("fs/promise");
-
-
-/***/ }),
-
 /***/ 357:
 /***/ ((module) => {
 
@@ -6313,18 +6305,6 @@ module.exports = require("zlib");
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -6362,12 +6342,17 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "IS_WINDOWS": () => (/* binding */ IS_WINDOWS)
-/* harmony export */ });
-/* harmony import */ var fs_promise__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(393);
-/* harmony import */ var fs_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(fs_promise__WEBPACK_IMPORTED_MODULE_0__);
+
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  "IS_WINDOWS": () => (/* binding */ IS_WINDOWS)
+});
+
+;// CONCATENATED MODULE: external "fs/promises"
+const promises_namespaceObject = require("fs/promises");
+;// CONCATENATED MODULE: ./index.js
 const http = __nccwpck_require__(211);
 
 const core = __nccwpck_require__(584);
@@ -6377,21 +6362,21 @@ const IS_WINDOWS = process.platform === 'win32';
 
 function download(url, dest) {
     return new Promise((resolve, reject) => {
-        const file = fs_promise__WEBPACK_IMPORTED_MODULE_0__.createWriteStream(dest, { flags: "wx" });
+        const file = promises_namespaceObject.createWriteStream(dest, { flags: "wx" });
 
         const request = http.get(url, response => {
             if (response.statusCode === 200) {
                 response.pipe(file);
             } else {
                 file.close();
-                fs_promise__WEBPACK_IMPORTED_MODULE_0__.unlink(dest, () => {}); // Delete temp file
+                promises_namespaceObject.unlink(dest, () => {}); // Delete temp file
                 reject(`Server responded with ${response.statusCode}: ${response.statusMessage}`);
             }
         });
 
         request.on("error", err => {
             file.close();
-            fs_promise__WEBPACK_IMPORTED_MODULE_0__.unlink(dest, () => {}); // Delete temp file
+            promises_namespaceObject.unlink(dest, () => {}); // Delete temp file
             reject(err.message);
         });
 
@@ -6405,7 +6390,7 @@ function download(url, dest) {
             if (err.code === "EEXIST") {
                 reject("File already exists");
             } else {
-                fs_promise__WEBPACK_IMPORTED_MODULE_0__.unlink(dest, () => {}); // Delete temp file
+                promises_namespaceObject.unlink(dest, () => {}); // Delete temp file
                 reject(err.message);
             }
         });
@@ -6417,7 +6402,7 @@ async function main(){
         const downloadUrl = core.getInput('download_url');
         // mkdir & cd
         if (IS_WINDOWS) {
-            await fs_promise__WEBPACK_IMPORTED_MODULE_0__.mkdir('C:\\Javalib', { recursive: true });
+            await promises_namespaceObject.mkdir('C:\\Javalib', { recursive: true });
             process.chdir('C:\\Javalib');
         } else {
             process.chdir('/tmp');
@@ -6429,13 +6414,13 @@ async function main(){
         if (IS_WINDOWS) {
             core.addPath("C:\\Javalib");
             core.exportVariable('CLASSPATH', ".;C:\\Javalib\\antlr4.jar;%CLASSPATH%");
-            await fs_promise__WEBPACK_IMPORTED_MODULE_0__.writeFile('antlr.bat', "java org.antlr.v4.Tool %*");
-            await fs_promise__WEBPACK_IMPORTED_MODULE_0__.writeFile("antlr4.bat", "java org.antlr.v4.Tool %*")
+            await promises_namespaceObject.writeFile('antlr.bat', "java org.antlr.v4.Tool %*");
+            await promises_namespaceObject.writeFile("antlr4.bat", "java org.antlr.v4.Tool %*")
         } else {
             core.addPath("/tmp");
             core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
-            await fs_promise__WEBPACK_IMPORTED_MODULE_0__.writeFile("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
-            await fs_promise__WEBPACK_IMPORTED_MODULE_0__.chmod("antlr", 0o775);
+            await promises_namespaceObject.writeFile("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
+            await promises_namespaceObject.chmod("antlr", 0o775);
         }
         console.log("Installed")
     } catch (error) {
