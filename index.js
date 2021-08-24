@@ -64,7 +64,8 @@ async function main(){
             await fs.writeFile("antlr4.bat", "java org.antlr.v4.Tool %*")
         } else {
             core.addPath("/tmp");
-            await fs.writeFile("antlr", "java -jar /tmp/antlr4.jar $1")
+            core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
+            await fs.writeFile("antlr", "java -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool \"$@\"")
             await fs.chmod("antlr", 0o775);
         }
         console.log("Installed")
