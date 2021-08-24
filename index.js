@@ -22,23 +22,26 @@ try {
     const file = fs.createWriteStream("antlr4.jar");
     http.get(downloadUrl, function (response) {
         response.pipe(file);
+        // install
+        if (IS_WINDOWS) {
+            core.addPath("C:\\Javalib");
+            core.exportVariable('CLASSPATH', ".;C:\\Javalib\\antlr4.jar;%CLASSPATH%");
+            fs.writeFileSync("antlr.bat", "java org.antlr.v4.Tool %*")
+            fs.writeFileSync("antlr4.bat", "java org.antlr.v4.Tool %*")
+        } else {
+            core.addPath("/tmp");
+            core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
+            fs.writeFileSync("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
+            fs.chmod("antlr", 0o775, (err) => {
+                if (err) throw err;
+                console.log('The permissions for file "my_file.txt" have been changed!');
+            });
+        }
+        console.log("Installed")
     });
-    // install
-    if (IS_WINDOWS) {
-        core.addPath("C:\\Javalib");
-        core.exportVariable('CLASSPATH', ".;C:\\Javalib\\antlr4.jar;%CLASSPATH%");
-        fs.writeFileSync("antlr.bat", "java org.antlr.v4.Tool %*")
-        fs.writeFileSync("antlr4.bat", "java org.antlr.v4.Tool %*")
-    } else {
-        core.addPath("/tmp");
-        core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
-        fs.writeFileSync("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
-        fs.chmod("antlr", 0o775, (err) => {
-            if (err) throw err;
-            console.log('The permissions for file "my_file.txt" have been changed!');
-        });
-    }
+
 } catch (error) {
+    console.log("Install failed")
     console.trace(error);
     core.setFailed(error.message);
 }
