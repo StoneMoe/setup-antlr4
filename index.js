@@ -22,6 +22,9 @@ try {
     });
     // install
     if (IS_WINDOWS) {
+        fs.mkdir('C:\\Javalib', { recursive: true }, (err) => {
+            if (err) throw err;
+        });
         core.addPath("C:\\Javalib");
         core.exportVariable('CLASSPATH', ".;C:\\Javalib\\antlr4.jar;%CLASSPATH%");
         fs.writeFileSync("antlr.bat", "java org.antlr.v4.Tool %*")
