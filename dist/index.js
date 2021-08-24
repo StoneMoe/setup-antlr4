@@ -7664,7 +7664,7 @@ try {
     if (IS_WINDOWS) {
         process.chdir('C:\\Javalib');
     } else {
-        process.chdir('/usr/local/lib');
+        process.chdir('/tmp');
     }
 
     const downloadUrl = core.getInput('download_url');
@@ -7680,9 +7680,9 @@ try {
         fs.writeFileSync("antlr.bat", "java org.antlr.v4.Tool %*")
         fs.writeFileSync("antlr4.bat", "java org.antlr.v4.Tool %*")
     } else {
-        core.addPath("/usr/local/lib");
-        core.exportVariable('CLASSPATH', '.:/usr/local/lib/antlr4.jar:$CLASSPATH');
-        fs.writeFileSync("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/usr/local/lib/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
+        core.addPath("/tmp");
+        core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
+        fs.writeFileSync("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
         fs.chmod("antlr", "777")
     }
 } catch (error) {
