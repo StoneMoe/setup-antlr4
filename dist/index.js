@@ -6348,6 +6348,7 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ });
 const http = __nccwpck_require__(211);
 const fs = __nccwpck_require__(747).promises;
+const oldfs = __nccwpck_require__(747);
 const core = __nccwpck_require__(584);
 const github = __nccwpck_require__(167);
 
@@ -6355,21 +6356,21 @@ const IS_WINDOWS = process.platform === 'win32';
 
 function download(url, dest) {
     return new Promise((resolve, reject) => {
-        const file = fs.createWriteStream(dest, { flags: "wx" });
+        const file = oldfs.createWriteStream(dest, { flags: "wx" });
 
         const request = http.get(url, response => {
             if (response.statusCode === 200) {
                 response.pipe(file);
             } else {
                 file.close();
-                fs.unlink(dest, () => {}); // Delete temp file
+                oldfs.unlink(dest, () => {}); // Delete temp file
                 reject(`Server responded with ${response.statusCode}: ${response.statusMessage}`);
             }
         });
 
         request.on("error", err => {
             file.close();
-            fs.unlink(dest, () => {}); // Delete temp file
+            oldfs.unlink(dest, () => {}); // Delete temp file
             reject(err.message);
         });
 
@@ -6383,7 +6384,7 @@ function download(url, dest) {
             if (err.code === "EEXIST") {
                 reject("File already exists");
             } else {
-                fs.unlink(dest, () => {}); // Delete temp file
+                oldfs.unlink(dest, () => {}); // Delete temp file
                 reject(err.message);
             }
         });
