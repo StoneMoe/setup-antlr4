@@ -6342,19 +6342,12 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "IS_WINDOWS": () => (/* binding */ IS_WINDOWS)
-});
-
-;// CONCATENATED MODULE: external "fs/promises"
-const promises_namespaceObject = require("fs/promises");
-;// CONCATENATED MODULE: ./index.js
+/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
+/* harmony export */   "IS_WINDOWS": () => (/* binding */ IS_WINDOWS)
+/* harmony export */ });
 const http = __nccwpck_require__(211);
-
+const fs = __nccwpck_require__(747).promises;
 const core = __nccwpck_require__(584);
 const github = __nccwpck_require__(167);
 
@@ -6362,21 +6355,21 @@ const IS_WINDOWS = process.platform === 'win32';
 
 function download(url, dest) {
     return new Promise((resolve, reject) => {
-        const file = promises_namespaceObject.createWriteStream(dest, { flags: "wx" });
+        const file = fs.createWriteStream(dest, { flags: "wx" });
 
         const request = http.get(url, response => {
             if (response.statusCode === 200) {
                 response.pipe(file);
             } else {
                 file.close();
-                promises_namespaceObject.unlink(dest, () => {}); // Delete temp file
+                fs.unlink(dest, () => {}); // Delete temp file
                 reject(`Server responded with ${response.statusCode}: ${response.statusMessage}`);
             }
         });
 
         request.on("error", err => {
             file.close();
-            promises_namespaceObject.unlink(dest, () => {}); // Delete temp file
+            fs.unlink(dest, () => {}); // Delete temp file
             reject(err.message);
         });
 
@@ -6390,7 +6383,7 @@ function download(url, dest) {
             if (err.code === "EEXIST") {
                 reject("File already exists");
             } else {
-                promises_namespaceObject.unlink(dest, () => {}); // Delete temp file
+                fs.unlink(dest, () => {}); // Delete temp file
                 reject(err.message);
             }
         });
@@ -6402,7 +6395,7 @@ async function main(){
         const downloadUrl = core.getInput('download_url');
         // mkdir & cd
         if (IS_WINDOWS) {
-            await promises_namespaceObject.mkdir('C:\\Javalib', { recursive: true });
+            await fs.mkdir('C:\\Javalib', { recursive: true });
             process.chdir('C:\\Javalib');
         } else {
             process.chdir('/tmp');
@@ -6414,13 +6407,13 @@ async function main(){
         if (IS_WINDOWS) {
             core.addPath("C:\\Javalib");
             core.exportVariable('CLASSPATH', ".;C:\\Javalib\\antlr4.jar;%CLASSPATH%");
-            await promises_namespaceObject.writeFile('antlr.bat', "java org.antlr.v4.Tool %*");
-            await promises_namespaceObject.writeFile("antlr4.bat", "java org.antlr.v4.Tool %*")
+            await fs.writeFile('antlr.bat', "java org.antlr.v4.Tool %*");
+            await fs.writeFile("antlr4.bat", "java org.antlr.v4.Tool %*")
         } else {
             core.addPath("/tmp");
             core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
-            await promises_namespaceObject.writeFile("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
-            await promises_namespaceObject.chmod("antlr", 0o775);
+            await fs.writeFile("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
+            await fs.chmod("antlr", 0o775);
         }
         console.log("Installed")
     } catch (error) {

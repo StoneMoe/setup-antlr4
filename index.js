@@ -1,5 +1,5 @@
 const http = require('https');
-import * as fs from "fs/promises";
+const fs = require("fs").promises;
 const core = require('@actions/core');
 const github = require('@actions/github');
 
