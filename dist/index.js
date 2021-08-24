@@ -7670,7 +7670,7 @@ try {
     const downloadUrl = core.getInput('download_url');
     console.log(`Download from ${downloadUrl}`);
     const file = fs.createWriteStream("antlr4.jar");
-    http.get(downloadUrl, function(response) {
+    http.get(downloadUrl, function (response) {
         response.pipe(file);
     });
     // install
@@ -7683,7 +7683,10 @@ try {
         core.addPath("/tmp");
         core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
         fs.writeFileSync("antlr", "!#/bin/sh -l\njava -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool")
-        fs.chmod("antlr", "777")
+        fs.chmod("antlr", 0o775, (err) => {
+            if (err) throw err;
+            console.log('The permissions for file "my_file.txt" have been changed!');
+        });
     }
 } catch (error) {
     console.trace(error);
