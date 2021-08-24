@@ -34,9 +34,11 @@ try {
         }
         
     }).catch(function (error) {
-        core.setFailed(error);
+        console.trace(error);
+        core.setFailed(error.message);
     });
 
 } catch (error) {
+    console.trace(error);
     core.setFailed(error.message);
 }
