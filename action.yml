@@ -1,0 +1,10 @@
+name: 'Setup Antlr4'
+description: 'Install Antlr4 tools for you'
+inputs:
+  download_url:
+    description: 'antlr4 download source'
+    required: true
+    default: 'https://www.antlr.org/download/antlr-4.9.2-complete.jar'
+runs:
+  using: 'node14'
+  main: 'dist/index.js'
