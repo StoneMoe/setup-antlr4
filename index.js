@@ -8,7 +8,7 @@ export const IS_WINDOWS = process.platform === 'win32';
 
 function download(url, dest) {
     return new Promise((resolve, reject) => {
-        const file = oldfs.createWriteStream(dest, { flags: "wx" });
+        const file = oldfs.createWriteStream(dest, { flags: "w" });
 
         const request = http.get(url, response => {
             if (response.statusCode === 200) {
