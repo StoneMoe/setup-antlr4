@@ -1,28 +1,30 @@
 # setup-antlr4
 
-This action install antlr4 for you.  
-Use `setup-java` to install Java 1.7 (aka Java 7) and later, before this step.
+This action install antlr4 tool for you.
+
+Install `java` ([action/setup-java](https://github.com/actions/setup-java)) before this action step.
 
 ## Inputs
-
-## `download_url`
-
-**Required** The URL of Antlr4 tools to download. Default `"https://www.antlr.org/download/antlr-4.9.2-complete.jar"`.
+### `download_url`
+**Required**, The URL of Antlr4 tools to download. Default `"https://www.antlr.org/download/antlr-4.9.2-complete.jar"`.
 
 ## Outputs
-
 Nothing
 
-## Example usage
+## Usage
+antlr v4.9.2:
+```
+uses: StoneMoe/setup-antlr4@v2
+```
 
-if v4.9.2 is ok with you:
+antlr v4.10.1:
 ```
-uses: StoneMoe/setup-antlr4@v1.0
+uses: StoneMoe/setup-antlr4@v4.10.1
 ```
 
-or set your own download_url:
+custom:
 ```
-uses: StoneMoe/setup-antlr4@v1.0
+uses: StoneMoe/setup-antlr4@v2
 with:
-  download_url: 'xxxxxxxxxxxxx'
+  download_url: 'https://www.antlr.org/download/antlr-x.x.x-complete.jar'
 ```

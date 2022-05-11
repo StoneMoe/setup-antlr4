@@ -6413,8 +6413,8 @@ async function main(){
         } else {
             core.addPath("/tmp");
             core.exportVariable('CLASSPATH', '.:/tmp/antlr4.jar:$CLASSPATH');
-            await fs.writeFile("antlr", "java -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool \"$@\"");
-            await fs.writeFile("antlr4", "java -Xmx500M -cp \"/tmp/antlr4.jar:$CLASSPATH\" org.antlr.v4.Tool \"$@\"");
+            await fs.writeFile("antlr", "java org.antlr.v4.Tool \"$@\"");
+            await fs.writeFile("antlr4", "java org.antlr.v4.Tool \"$@\"");
             await fs.chmod("antlr", 0o775);
             await fs.chmod("antlr4", 0o775);
         }
