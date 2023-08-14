@@ -22,8 +22,7 @@ jobs:
 
       - name: Update action.yml
         run: |
-          sed -i "s|antlr-.*-complete.jar|antlr-\${{ steps.get_version.outputs.version }}-complete.jar|" path/to/your/action.yml
-
+          sed -i "s/antlr-.+-complete\.jar/antlr-${{ steps.get_version.outputs.version }}-complete.jar/g" your_file.yaml
 
       - name: Create Pull Request
         id: cpr
