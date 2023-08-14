@@ -2,11 +2,8 @@ name: Update Antlr4 Version
 
 on:
   workflow_dispatch:
-  release:
-    types:
-      - created
-    repositories:
-      - antlr/antlr4
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   createPullRequest:
@@ -31,10 +28,10 @@ jobs:
           commit-message: bump to ${{ steps.get_version.outputs.version }}
           branch: bump-${{ steps.get_version.outputs.version }}
           delete-branch: true
-          title: "Bump antlr4 to ${{ steps.get_version.outputs.version }}"
+          title: "Bump ANTLR to ${{ steps.get_version.outputs.version }}"
           body: |
             Auto-generated
           labels: |
-            new-antlr4-release
+            new-antlr-release
             automated-pr
           draft: false
