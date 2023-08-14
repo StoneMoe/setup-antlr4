@@ -1,0 +1,40 @@
+name: Update Antlr4 Version
+
+on:
+  release:
+    types:
+      - created
+    repositories:
+      - antlr/antlr4
+
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get latest Antlr4 version
+        id: get_version
+        run: |
+          version=$(curl -s https://api.github.com/repos/antlr/antlr4/releases/latest | jq -r '.tag_name')
+          echo "::set-output name=version::$version"
+
+      - name: Update action.yml
+        run: |
+          sed -i "s|antlr-.*-complete.jar|antlr-\${{ steps.get_version.outputs.version }}-complete.jar|" path/to/your/action.yml
+
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: bump to ${{ steps.get_version.outputs.version }}
+          branch: bump-${{ steps.get_version.outputs.version }}
+          delete-branch: true
+          title: "Bump antlr4 to ${{ steps.get_version.outputs.version }}"
+          body: |
+            Auto-generated
+          labels: |
+            new-antlr4-release
+            automated-pr
+          draft: false
