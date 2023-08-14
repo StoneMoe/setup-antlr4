@@ -1,6 +1,7 @@
 name: Update Antlr4 Version
 
 on:
+  workflow_dispatch:
   release:
     types:
       - created
