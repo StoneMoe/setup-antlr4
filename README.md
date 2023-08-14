@@ -5,22 +5,16 @@ This action install antlr4 tool for you.
 Install `java` ([action/setup-java](https://github.com/actions/setup-java)) before this action step.
 
 ## Usage
-antlr v4.9.2:
 ```
-uses: StoneMoe/setup-antlr4@v2
-```
+# antlr v4.13.0
+uses: StoneMoe/setup-antlr4@v4.13.0
 
-antlr v4.10.1:
-```
-uses: StoneMoe/setup-antlr4@v4.10.1
-```
-
-custom:
-```
-uses: StoneMoe/setup-antlr4@v2
+# custom
+uses: StoneMoe/setup-antlr4@v4.13.0
 with:
   download_url: 'https://www.antlr.org/download/antlr-x.x.x-complete.jar'
 ```
+for more version tags, see Releases.
 
 ## Inputs
 ### `download_url`
